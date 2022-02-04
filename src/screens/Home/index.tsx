@@ -1,9 +1,11 @@
 import React from "react";
 
-import { Container } from "./styles";
+import { Container, HeaderText } from "./styles";
 
 export function Home(){
     return(
-        <Container />
+        <Container>
+            <HeaderText>Teste</HeaderText>
+        </Container>
     )
 }
