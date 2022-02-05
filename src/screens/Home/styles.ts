@@ -12,7 +12,7 @@ export const Header = styled.View`
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-end;
-    padding: 45px 16px 16px 16px;
+    padding: 65px 16px 16px 16px;
     background-color: ${({ theme }) => theme.COLORS.BLUE};
 `;
 
