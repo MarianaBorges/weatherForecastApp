@@ -25,4 +25,5 @@ export const CloseIcon = styled(Ionicons)``;
 
 export const Content = styled.View`
     padding: 20px;
+    flex: 1;
 `;

@@ -12,9 +12,11 @@ import {
 
 import { Input } from "../../components/Input";
 import { CityCard } from "../../components/CityCard";
+import { Load } from "../../components/Load";
 
 export function Seach(){
     const [city, setCity] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const {COLORS} = useTheme();
 
     return(
@@ -36,7 +38,11 @@ export function Seach(){
                 </InputContent>
             </Header>
             <Content>
-                <CityCard data={{city: "Floriano", country:"Brasil"}}/>
+                {
+                    isLoading 
+                    ? <Load/>
+                    : <CityCard data={{city: "Floriano", country:"Brasil"}}/>
+                }
             </Content>
         </Container>
     )
