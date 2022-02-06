@@ -1,10 +1,11 @@
 import styled, { css } from "styled-components/native";
 import { BorderlessButton } from "react-native-gesture-handler";
 import { Ionicons } from '@expo/vector-icons';
+import { FlatList } from "react-native";
 
 export const Container = styled.View`
     flex: 1;
-    background-color: ${({ theme }) => theme.COLORS.WHITE};
+    background-color: ${({ theme }) => theme.COLORS.SHAPE};
 `;
 
 export const Header = styled.View`
@@ -30,10 +31,10 @@ export const SeachButton = styled(BorderlessButton)``;
 export const SeachIcon = styled(Ionicons)``;
 
 export const Content = styled.View`
-    width: 100%;
-    height: 85%;
+    flex:1;
     justify-content: center;
     align-items: center;
+    padding: 20px;
 `;
 
 export const Title = styled.Text`
@@ -55,3 +56,10 @@ export const Details = styled.Text`
         color: ${theme.COLORS.TEXT};
     `}
 `;
+
+export const CitiesList = styled(FlatList).attrs({
+    contentContainerStyle:{
+        padding: 20,
+    },
+    showsVerticalScrollIndicator: false
+})``;

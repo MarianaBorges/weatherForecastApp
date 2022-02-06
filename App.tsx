@@ -26,7 +26,7 @@ export default function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <Seach />
+        <Home />
         <StatusBar style='light' />
       </ThemeProvider>
     </>

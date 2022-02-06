@@ -8,11 +8,14 @@ import {
     Header, 
     HeaderText, 
     SeachIcon,
-    Title
+    Title,
+    CitiesList
 } from "./styles";
 
+import { CityWeatherCard } from "../../components/CityWeatherCard";
+
 export function Home(){
-    const [cities, setCities] = useState([]);
+    const [cities, setCities] = useState(['1','2','3']);
     const {COLORS} = useTheme();
 
     return(
@@ -28,8 +31,16 @@ export function Home(){
                 </SeachIcon>
             </Header>
 
-           { cities.length === 0 &&
-                <Content>
+            { 
+                cities.length > 0
+                ?
+                <CitiesList
+                    data={cities}
+                    keyExtractor={item => item}
+                    renderItem={({item}) => <CityWeatherCard />}
+                />
+                :                
+                    <Content>
                     <Title>
                         Parece que você ainda não {'\n'}
                         adicionou uma cidade
@@ -38,7 +49,7 @@ export function Home(){
                         Tente adicionar uma cidade usando o {'\n'}
                         botão de busca
                     </Details>
-                </Content>
+                    </Content>
             }
         </Container>
     )

@@ -3,13 +3,15 @@ import { BorderlessButton } from "react-native-gesture-handler";
 import { MaterialIcons } from '@expo/vector-icons'; 
 
 export const Container = styled.View`
+    width: 100%;
+    height: 100px;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
-    height: 100px;
+
     border-radius: 10px;
     background-color: ${({theme}) => theme.COLORS.WHITE};
+    
     box-shadow: 10px 10px 5px;
     elevation: 5;
 `;
