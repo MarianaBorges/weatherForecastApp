@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useTheme } from "styled-components/native";
+import { useNavigation } from "@react-navigation/native";
 
 import { 
     Container, 
@@ -16,13 +17,23 @@ import { WeatherCard } from "../../components/WeatherCard";
 
 export function Home(){
     const [cities, setCities] = useState(['1','2','3']);
+    
+    const navigation = useNavigation();
     const {COLORS} = useTheme();
+
+    function handleNavigationSearchScreen(){
+        navigation.navigate('Seach');
+    }
+
+    function handleNavigationDetailsScreen(id: string){
+        navigation.navigate('Details', {id: id});
+    }
 
     return(
         <Container>
             <Header>
                 <HeaderText>Cidades</HeaderText>
-                <SeachIcon onPress={()=>{console.log('test button')}}>
+                <SeachIcon onPress={handleNavigationSearchScreen}>
                     <SeachIcon 
                         name="md-search-sharp" 
                         size={24} 
@@ -37,7 +48,11 @@ export function Home(){
                 <CitiesList
                     data={cities}
                     keyExtractor={item => item}
-                    renderItem={({item}) => <WeatherCard favorite={true}/>}
+                    renderItem={({item}) => 
+                        <WeatherCard 
+                            onPress={() => handleNavigationDetailsScreen(String(item))} 
+                            favorite={true}
+                        />}
                 />
                 :                
                     <Content>

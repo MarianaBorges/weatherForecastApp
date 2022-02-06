@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { GestureHandlerRootView, RectButtonProps } from "react-native-gesture-handler";
 import { useTheme } from "styled-components/native";
 
 import { 
@@ -11,14 +12,15 @@ import {
     AtmosphericConditions,
     TemperatureVariation,
     LikeIconButton,
-    LikeIcon
+    LikeIcon,
+    Button
 } from "./styles";
 
-type Props = {
+type Props = RectButtonProps & {
     favorite?: boolean; 
 }
 
-export function WeatherCard({favorite = false}: Props){
+export function WeatherCard({favorite = false, ...rest}: Props){
     const [isFavorite, setIsFavorite] = useState(false);
     const {COLORS} = useTheme();
 
@@ -27,8 +29,10 @@ export function WeatherCard({favorite = false}: Props){
     }
 
     return(
+
+        <GestureHandlerRootView>
         <Container>
-            <Content>
+            <Button {...rest}>
                 <ContentDetails>
                     <Title>Floriano</Title>
                     <Text>Brazil</Text>
@@ -36,7 +40,7 @@ export function WeatherCard({favorite = false}: Props){
                 <Temperature>
                     18º
                 </Temperature>
-            </Content>
+            </Button>
             
             <Content>
                 <ContentDetails>
@@ -68,5 +72,6 @@ export function WeatherCard({favorite = false}: Props){
                 }
             </Content>
         </Container>
+        </GestureHandlerRootView>
     )
 }

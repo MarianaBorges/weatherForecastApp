@@ -1,5 +1,6 @@
 import styled, { css } from "styled-components/native";
 import { AntDesign } from '@expo/vector-icons'; 
+import { BorderlessButton, RectButton } from "react-native-gesture-handler";
 
 export const Container = styled.View`
     width: 100%;
@@ -7,8 +8,7 @@ export const Container = styled.View`
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-    padding: 20px;
-
+ 
     border-radius: 10px;
     background-color: ${({theme}) => theme.COLORS.WHITE};
 
@@ -16,13 +16,21 @@ export const Container = styled.View`
     elevation: 5;
 `;
 
+export const Button = styled(RectButton)`
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 20px 10px 20px;
+`;
+
 export const Content = styled.View`
     width: 100%;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    padding: 0 20px 20px 20px;
 `;
-
 export const ContentDetails = styled.View``;
 
 export const Temperature = styled.Text`
@@ -70,6 +78,6 @@ export const TemperatureVariation = styled.Text`
     `};
 `;
 
-export const LikeIconButton = styled.TouchableOpacity``;
+export const LikeIconButton = styled(BorderlessButton)``;
 
 export const LikeIcon = styled(AntDesign)``;

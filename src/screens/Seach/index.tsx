@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useTheme } from "styled-components/native";
+import { useNavigation } from "@react-navigation/native";
 
 import { 
     Container, 
@@ -17,12 +18,18 @@ import { Load } from "../../components/Load";
 export function Seach(){
     const [city, setCity] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+
+    const navigation = useNavigation();
     const {COLORS} = useTheme();
+
+    function handleGoBack(){
+        navigation.goBack()
+    }
 
     return(
         <Container>
             <Header>
-                <CloseButton onPress={() =>{console.log('close button')}}>
+                <CloseButton activeOpacity={0.8} onPress={handleGoBack}>
                     <CloseIcon 
                         name="close" 
                         size={24} 

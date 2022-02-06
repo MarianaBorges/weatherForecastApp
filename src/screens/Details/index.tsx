@@ -16,6 +16,7 @@ import {
 
 export function Details(){
     const {COLORS} = useTheme();
+
     return(
         <Container>
             <Header>

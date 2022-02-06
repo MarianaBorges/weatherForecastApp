@@ -9,9 +9,8 @@ import {
 import AppLoading from 'expo-app-loading';
 import { ThemeProvider } from 'styled-components/native';
 
-import { Home } from './src/screens/Home';
-import { Seach } from './src/screens/Seach';
-import { Details } from './src/screens/Details';
+import { Routes } from './src/routes';
+
 import theme from './src/theme';
 
 export default function App() {
@@ -27,7 +26,7 @@ export default function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <Details />
+        <Routes />
         <StatusBar style='light' />
       </ThemeProvider>
     </>
