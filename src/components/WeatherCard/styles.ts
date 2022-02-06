@@ -34,7 +34,7 @@ export const Temperature = styled.Text`
     `}
 `;
 
-export const City = styled.Text`
+export const Title = styled.Text`
     font-size: 20px;
 
     ${({ theme }) => css`
@@ -43,7 +43,7 @@ export const City = styled.Text`
     `}
 `;
 
-export const Country = styled.Text`
+export const Text = styled.Text`
     font-size: 14px;
 
     ${({ theme }) => css`

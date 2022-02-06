@@ -12,7 +12,7 @@ import {
     CitiesList
 } from "./styles";
 
-import { CityWeatherCard } from "../../components/CityWeatherCard";
+import { WeatherCard } from "../../components/WeatherCard";
 
 export function Home(){
     const [cities, setCities] = useState(['1','2','3']);
@@ -37,7 +37,7 @@ export function Home(){
                 <CitiesList
                     data={cities}
                     keyExtractor={item => item}
-                    renderItem={({item}) => <CityWeatherCard />}
+                    renderItem={({item}) => <WeatherCard favorite={true}/>}
                 />
                 :                
                     <Content>
