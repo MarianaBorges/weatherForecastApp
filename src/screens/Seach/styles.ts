@@ -1,5 +1,8 @@
 import styled, { css } from "styled-components/native";
 import { Ionicons } from '@expo/vector-icons';
+import { FlatList } from "react-native";
+
+import { CityProps } from ".";
 
 export const Container = styled.View`
     flex: 1;
@@ -24,6 +27,12 @@ export const CloseButton = styled.TouchableOpacity``;
 export const CloseIcon = styled(Ionicons)``;
 
 export const Content = styled.View`
-    padding: 20px;
     flex: 1;
 `;
+
+export const CitiesList = styled(FlatList).attrs({
+    contentContainerStyle:{
+        padding: 20
+    },
+    showsVerticalScrollIndicator: false
+})`` as React.ComponentType as new <CityProps>() => FlatList<CityProps>;

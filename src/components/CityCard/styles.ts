@@ -8,6 +8,7 @@ export const Container = styled.View`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 20px;
 
     border-radius: 10px;
     background-color: ${({theme}) => theme.COLORS.WHITE};

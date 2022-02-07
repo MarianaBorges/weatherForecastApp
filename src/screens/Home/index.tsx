@@ -47,7 +47,6 @@ export function Home(){
                 ?
                 <CitiesList
                     data={cities}
-                    keyExtractor={item => item}
                     renderItem={({item}) => 
                         <WeatherCard 
                             onPress={() => handleNavigationDetailsScreen(String(item))} 
@@ -55,7 +54,7 @@ export function Home(){
                         />}
                 />
                 :                
-                    <Content>
+                <Content>
                     <Title>
                         Parece que você ainda não {'\n'}
                         adicionou uma cidade
@@ -64,7 +63,7 @@ export function Home(){
                         Tente adicionar uma cidade usando o {'\n'}
                         botão de busca
                     </Details>
-                    </Content>
+                </Content>
             }
         </Container>
     )
