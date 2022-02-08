@@ -4,6 +4,7 @@ import { useWeather } from "../../hooks/weather";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
 import { WeatherWeekCard } from "../../components/WeatherWeekCard";
+import { Load } from "../../components/Load";
 
 import { 
     Container, 
@@ -20,7 +21,7 @@ import { DetailsNavigationProps } from "../../@types/navigation";
 
 export function Details(){
     const {COLORS} = useTheme();
-    const {fetchWeekWeatherCity, weatherFiveDays} = useWeather();
+    const {isLoading, fetchWeekWeatherCity, weatherFiveDays} = useWeather();
     const navigation = useNavigation();
     const route = useRoute();
     const { lat,lon, city } = route.params as DetailsNavigationProps;
@@ -52,11 +53,16 @@ export function Details(){
                 <Text>Previsão para os próximos 5 dias</Text>
             </Content>
             
-            <WeatherList
-                data={weatherFiveDays}
-                keyExtractor={item => item.dt!}
-                renderItem={({item,index}) => <WeatherWeekCard index={index} data={item} />}
-            />
+            { 
+                isLoading ?
+                <Load/>
+                :
+                <WeatherList
+                    data={weatherFiveDays}
+                    keyExtractor={item => item.dt!}
+                    renderItem={({item,index}) => <WeatherWeekCard index={index} data={item} />}
+                />
+            }
         </Container>
     );
 }

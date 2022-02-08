@@ -20,7 +20,6 @@ export type CityProps = {
 type CityContextData = {
     isLoading: boolean;
     cities: CityProps[];
-    handleNewCity:(id: string) => Promise<void>;
     fechMyCities: () => Promise<void>;
     updatedFavoriteCity: (id: string) => Promise<void>;
 }
@@ -36,29 +35,6 @@ export const CityContext = createContext({} as CityContextData);
 function CityProvider({ children }: CityProviderProps){
     const [cities, setCities] = useState<CityProps[]>([]);
     const [isLoading, setIsLoading] = useState(false);
-
-    async function handleNewCity(id: string){
-        const city = cities.find(city => city.id === id);
-
-        if(city){
-            const response = await AsyncStorage.getItem(CITY_COLLECTION);
-            const data = response ? JSON.parse(response) : [];
-
-            const verifyCity = data.find( (cityStorage: CityProps) => cityStorage.id === id )
-            
-            if(verifyCity){
-                return Alert.alert('Oops!', 'Você já adicionou essa cidade!')
-            }
-
-            data.push(city);
-
-            await AsyncStorage.setItem(CITY_COLLECTION, JSON.stringify(data));
-            Alert.alert('Legal!',"Cidade adicionada a sua lista!");
-        }else{
-            Alert.alert('Oops!',"Algo deu errado");
-        }
-    }
-
 
     async function fechMyCities(){
         try {
@@ -93,9 +69,6 @@ function CityProvider({ children }: CityProviderProps){
                     return storageCity;
                 }
             });
-
-            console.log('updateCities', updateCities );
-
             await AsyncStorage.setItem(CITY_COLLECTION, JSON.stringify(updateCities));
             
         } catch (error) {
@@ -109,7 +82,6 @@ function CityProvider({ children }: CityProviderProps){
         <CityContext.Provider value={{
             isLoading, 
             cities,
-            handleNewCity, 
             updatedFavoriteCity,
             fechMyCities
         }}>

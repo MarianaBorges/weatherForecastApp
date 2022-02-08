@@ -69,6 +69,7 @@ function WeatherProvider({ children }: WeatherProviderProps){
 
     async function fetchWeekWeatherCity(lat: string, lon: string){
         try {
+            setIsLoading(true);
             const response = await apiOpenWeather.get(`forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&cnt=5&units=metric&lang=pt_br`)    
             
             const dataFormatted: WeatherProps[] = response.data.list.map((data: ResponseOpenWeather)=>{
@@ -85,6 +86,8 @@ function WeatherProvider({ children }: WeatherProviderProps){
             setWeatherFiveDays(dataFormatted);
         } catch (error) {
             console.log(error);
+        }finally{
+            setIsLoading(false);
         }
         
     }

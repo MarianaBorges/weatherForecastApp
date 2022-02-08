@@ -66,6 +66,7 @@ export const Text = styled.Text`
 
 export const AtmosphericConditions = styled.Text`
     font-size: 14px;
+    text-transform: capitalize;
 
     ${({ theme }) => css`
         font-family: ${theme.FONTS.REGULAR};

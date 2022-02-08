@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { Alert } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { useTheme } from "styled-components/native";
 import { useNavigation } from "@react-navigation/native";
@@ -41,12 +43,12 @@ type ResponseMapBoxProps = {
 }
 
 const TOKEN = 'access_token=pk.eyJ1IjoibWFyaWFuYW1ib3JnZXMiLCJhIjoiY2t6Y3R4MXh0Mm9lNjJ2cDRvcGo0ODJsaiJ9.hCa1jQvoYhIIHhyY9JmW6Q'
+const CITY_COLLECTION = '@RN_weatherForecastApp:cities';
 
 export function Seach(){
     const [cities, setCities] = useState<CityProps[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
-    const {handleNewCity} = useCity();
     const navigation = useNavigation();
     const {COLORS} = useTheme();
 
@@ -79,6 +81,28 @@ export function Seach(){
             
         } finally{
             setIsLoading(false);
+        }
+    }
+
+    async function handleNewCity(id: string){
+        const city = cities.find(city => city.id === id);
+
+        if(city){
+            const response = await AsyncStorage.getItem(CITY_COLLECTION);
+            const data = response ? JSON.parse(response) : [];
+
+            const verifyCity = data.find( (cityStorage: CityProps) => cityStorage.id === id )
+            
+            if(verifyCity){
+                return Alert.alert('Oops!', 'Você já adicionou essa cidade!')
+            }
+
+            data.push(city);
+
+            await AsyncStorage.setItem(CITY_COLLECTION, JSON.stringify(data));
+            Alert.alert('Legal!',"Cidade adicionada a sua lista!");
+        }else{
+            Alert.alert('Oops!',"Algo deu errado");
         }
     }
 
