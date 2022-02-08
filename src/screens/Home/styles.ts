@@ -62,4 +62,4 @@ export const CitiesList = styled(FlatList).attrs({
         padding: 20,
     },
     showsVerticalScrollIndicator: false
-})``;
+})`` as React.ComponentType as new <CityProps>() => FlatList<CityProps>;;

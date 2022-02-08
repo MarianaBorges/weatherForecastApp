@@ -3,7 +3,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { useTheme } from "styled-components/native";
 import { useNavigation } from "@react-navigation/native";
-import { useWeather, WeatherProps } from "../../hooks/weather";
 
 import { 
     Container, 
@@ -20,16 +19,14 @@ import { WeatherCard } from "../../components/WeatherCard";
 
 import { CityProps } from "../Seach";
 import { Load } from "../../components/Load";
-
-type WeatherCityProps = CityProps & WeatherProps;
+import { Alert } from "react-native";
 
 export function Home(){
-    const [cities, setCities] = useState<WeatherCityProps[]>([] as WeatherCityProps[]);
-    const [isLoading, setIsLoading] = useState(false);
+    const [cities, setCities] = useState<CityProps[]>([] as CityProps[]);
+    const [isLoading, setIsLoading] = useState(true);
     
     const navigation = useNavigation();
     const {COLORS} = useTheme();
-    const {fetchCurrentWeatherCity} = useWeather();
 
     function handleNavigationSearchScreen(){
         navigation.navigate('Seach');  
@@ -38,32 +35,23 @@ export function Home(){
     function handleNavigationDetailsScreen(id: string){
         navigation.navigate('Details', {id: id});
     }
-
-    async function fetchCurrentWeatherCities(){
+ 
+    async function fechMyCities(){
         try {
-            setIsLoading(true)
             const response = await AsyncStorage.getItem('@RN_weatherForecastApp:cities');
-            const storageCities = response ? JSON.parse(response) : [];
+            const storageCities = response ? JSON.parse(response): [];
 
-            storageCities.map(async (storageCity: CityProps)=>{
-               const data = await fetchCurrentWeatherCity(storageCity.latitude,storageCity.longitude);
-               return {
-                   ...data,
-                   ...storageCity
-                };
-            });
             setCities(storageCities);
-
         } catch (error) {
-            
+            Alert.alert('Oops ocorreu um problema ao buscar as cidades.');
         }finally{
             setIsLoading(false);
         }
     }
- 
+
     useEffect(()=>{
-        fetchCurrentWeatherCities();
-    },[])
+        fechMyCities();
+    })
 
     return(
         <Container>
@@ -76,7 +64,7 @@ export function Home(){
                         color={COLORS.WHITE} 
                     />
                 </SeachIcon>
-            </Header>
+            </Header> 
 
             { 
                 isLoading ? <Load/> :
@@ -85,8 +73,10 @@ export function Home(){
                     ?
                     <CitiesList
                         data={cities}
+                        keyExtractor={item => item.id}
                         renderItem={({item}) => 
                             <WeatherCard 
+                                data={item}
                                 onPress={() => handleNavigationDetailsScreen(String(item))} 
                                 favorite={true}
                             />}

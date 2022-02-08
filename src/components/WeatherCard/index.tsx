@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { GestureHandlerRootView, RectButtonProps } from "react-native-gesture-handler";
 import { useTheme } from "styled-components/native";
+import { useWeather, WeatherProps } from "../../hooks/weather";
+import { CityProps } from "../../screens/Seach";
 
 import { 
     Container, 
@@ -17,16 +19,39 @@ import {
 } from "./styles";
 
 type Props = RectButtonProps & {
+    data: CityProps;
     favorite?: boolean; 
+    changeFavorite?:() => Promise<void>;
 }
 
-export function WeatherCard({favorite = false, ...rest}: Props){
+export function WeatherCard({
+    data,
+    favorite = false,
+    changeFavorite, 
+    ...rest}
+: Props){
+
     const [isFavorite, setIsFavorite] = useState(false);
+    const [weatherForecast, setWeatherForecast] = useState<WeatherProps>();
+
     const {COLORS} = useTheme();
+    const {fetchCurrentWeatherCity} = useWeather()
 
     function handleFavorite(){
         setIsFavorite(prevState => !prevState);
     }
+
+    async function handleWeatherForecast(){
+        const response = await fetchCurrentWeatherCity(data.latitude,data.longitude);
+        setWeatherForecast(response);
+    }
+
+    useEffect(()=>{
+        handleWeatherForecast();
+    },[])
+
+    if(!weatherForecast)
+        return <></>
 
     return(
 
@@ -34,18 +59,18 @@ export function WeatherCard({favorite = false, ...rest}: Props){
         <Container>
             <Button {...rest}>
                 <ContentDetails>
-                    <Title>Floriano</Title>
-                    <Text>Brazil</Text>
+                    <Title>{data.city}</Title>
+                    <Text>{data.estate}, {data.country}</Text>
                 </ContentDetails>
                 <Temperature>
-                    18º
+                    {weatherForecast!.temperature}º
                 </Temperature>
             </Button>
             
             <Content>
                 <ContentDetails>
-                    <AtmosphericConditions>Ensolarado</AtmosphericConditions>
-                    <TemperatureVariation>10º - 20º</TemperatureVariation>
+                    <AtmosphericConditions>{weatherForecast.weather}</AtmosphericConditions>
+                    <TemperatureVariation>{weatherForecast.minimum}º - {weatherForecast.maximum}º</TemperatureVariation>
                 </ContentDetails>
                 {   
                     favorite &&
