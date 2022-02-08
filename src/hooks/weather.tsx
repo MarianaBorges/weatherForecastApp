@@ -8,7 +8,9 @@ import React,{
 
 import apiOpenWeather from "../services/apiOpenWeather";
 
-type ResponseOpenWeather = {
+export type ResponseOpenWeather = {
+    dt: string,
+    dt_txt: string,
     main:{
         temp: string;
         temp_max: string;
@@ -19,8 +21,9 @@ type ResponseOpenWeather = {
     }];
  };
  
-
 export type WeatherProps = {
+    dt?: string;
+    dt_txt?: string;
     temperature: string;
     maximum: string;
     minimum: string,
@@ -29,7 +32,9 @@ export type WeatherProps = {
 
 type WeatherContextData = {
     isLoading: boolean;
+    weatherFiveDays: WeatherProps[];
     fetchCurrentWeatherCity: (lat: string, lon: string) => Promise<WeatherProps>;
+    fetchWeekWeatherCity: (lat: string, lon: string) => Promise<void>;
 }
 
 type WeatherProviderProps = {
@@ -42,6 +47,7 @@ export const WeatherContext = createContext({} as WeatherContextData);
 
 function WeatherProvider({ children }: WeatherProviderProps){
     const [isLoading, setIsLoading] = useState(false);
+    const [weatherFiveDays, setWeatherFiveDays] = useState<WeatherProps[]>([]);
 
     async function fetchCurrentWeatherCity(lat: string, lon: string){
         try {
@@ -61,10 +67,35 @@ function WeatherProvider({ children }: WeatherProviderProps){
         }
     }
 
+    async function fetchWeekWeatherCity(lat: string, lon: string){
+        try {
+            const response = await apiOpenWeather.get(`forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&cnt=5&units=metric&lang=pt_br`)    
+            console.log('response', response.data.list);
+
+            const dataFormatted: WeatherProps[] = response.data.list.map((data: ResponseOpenWeather)=>{
+                return {
+                    dt: data.dt,
+                    dtText: data.dt_txt,
+                    temperature: data.main.temp,
+                    maximum: data.main.temp_max,
+                    minimum: data.main.temp_min,
+                    weather: data.weather[0].description, 
+                }
+            });
+
+            setWeatherFiveDays(dataFormatted);
+        } catch (error) {
+            console.log(error);
+        }
+        
+    }
+
     return (
         <WeatherContext.Provider value={{
+            weatherFiveDays,
             isLoading,
-            fetchCurrentWeatherCity
+            fetchCurrentWeatherCity,
+            fetchWeekWeatherCity
         }}>
             {children}
         </WeatherContext.Provider>

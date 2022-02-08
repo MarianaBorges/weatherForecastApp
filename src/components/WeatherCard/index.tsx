@@ -75,29 +75,26 @@ export function WeatherCard({
                     <AtmosphericConditions>{weatherForecast.weather}</AtmosphericConditions>
                     <TemperatureVariation>{weatherForecast.minimum}º - {weatherForecast.maximum}º</TemperatureVariation>
                 </ContentDetails>
-                {   
-                    favorite &&
-                    <LikeIconButton 
-                        activeOpacity={0.9} 
-                        onPress={handleFavorite}
-                    >
-                        {
-                            isFavorite
-                            ? 
-                            <LikeIcon 
-                                name="heart" 
-                                size={22} 
-                                color={COLORS.PINK} 
-                            />
-                            :
-                            <LikeIcon 
-                                name="hearto" 
-                                size={22} 
-                                color={COLORS.PINK} 
-                            />
-                        }
-                    </LikeIconButton>
-                }
+                <LikeIconButton 
+                    activeOpacity={0.9} 
+                    onPress={handleFavorite}
+                >
+                    {
+                        isFavorite
+                        ? 
+                        <LikeIcon 
+                            name="heart" 
+                            size={22} 
+                            color={COLORS.PINK} 
+                        />
+                        :
+                        <LikeIcon 
+                            name="hearto" 
+                            size={22} 
+                            color={COLORS.PINK} 
+                       />
+                    }
+                </LikeIconButton>
             </Content>
         </Container>
         </GestureHandlerRootView>

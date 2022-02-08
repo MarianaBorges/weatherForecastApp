@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components/native";
 import { MaterialIcons } from '@expo/vector-icons';
 import { FlatList } from "react-native";
+import { WeatherProps } from '../../hooks/weather';
 
 export const Container = styled.View`
     flex: 1;
@@ -55,4 +56,4 @@ export const WeatherList = styled(FlatList).attrs({
         paddingVertical: 15
     },
     showsVerticalScrollIndicator: false
-})``;
+})``as React.ComponentType as new <WeatherProps>() => FlatList<WeatherProps>;

@@ -27,8 +27,8 @@ export function Home(){
         navigation.navigate('Seach');  
     }  
 
-    function handleNavigationDetailsScreen(id: string){
-        navigation.navigate('Details', {id: id});
+    function handleNavigationDetailsScreen(lat: string, lon: string, city: string){
+        navigation.navigate('Details', {lat: lat, lon: lon, city: city});
     }
  
     async function handleFavoriteToggle(id: string){
@@ -65,7 +65,7 @@ export function Home(){
                             <WeatherCard 
                                 data={item}
                                 changeFavorite={()=>handleFavoriteToggle(item.id)}
-                                onPress={() => handleNavigationDetailsScreen(String(item))} 
+                                onPress={() => handleNavigationDetailsScreen(item.latitude, item.longitude, item.city)} 
                                 favorite={true}
                             />}
                     />

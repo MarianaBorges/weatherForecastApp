@@ -1,5 +1,7 @@
 export type DetailsNavigationProps = {
-    id: string;
+    city: string;
+    lat: string;
+    lon: string;
 }
 
 export declare global {

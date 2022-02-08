@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useTheme } from "styled-components/native";
+import { useWeather } from "../../hooks/weather";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
-import { WeatherCard } from "../../components/WeatherCard";
+import { WeatherWeekCard } from "../../components/WeatherWeekCard";
 
 import { 
     Container, 
@@ -12,15 +14,29 @@ import {
     WeatherList,
     Content,
     Text
-} from "./styled";
+} from "./styled";  
+
+import { DetailsNavigationProps } from "../../@types/navigation";
 
 export function Details(){
     const {COLORS} = useTheme();
+    const {fetchWeekWeatherCity, weatherFiveDays} = useWeather();
+    const navigation = useNavigation();
+    const route = useRoute();
+    const { lat,lon, city } = route.params as DetailsNavigationProps;
+
+    function handleGoBack(){
+        navigation.goBack();
+    }
+
+    useEffect(() => {
+        fetchWeekWeatherCity(lat,lon);
+    }, []); 
 
     return(
         <Container>
             <Header>
-                <BackButton>
+                <BackButton onPress={handleGoBack}>
                     <BackIcon 
                         name="arrow-back-ios" 
                         size={24} 
@@ -28,7 +44,7 @@ export function Details(){
                     />
                 </BackButton>
                 <HeaderText>
-                    Floriano
+                    {city}
                 </HeaderText>
             </Header>
 
@@ -37,8 +53,9 @@ export function Details(){
             </Content>
             
             <WeatherList
-                data={['1','2','3','4','5']}
-                renderItem={() => <WeatherCard />}
+                data={weatherFiveDays}
+                keyExtractor={item => item.dt!}
+                renderItem={({item,index}) => <WeatherWeekCard index={index} data={item} />}
             />
         </Container>
     );
