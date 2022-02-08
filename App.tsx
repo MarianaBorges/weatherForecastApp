@@ -8,6 +8,7 @@ import {
 } from '@expo-google-fonts/roboto';
 import AppLoading from 'expo-app-loading';
 import { ThemeProvider } from 'styled-components/native';
+import { WeatherProvider } from './src/hooks/weather';
 
 import { Routes } from './src/routes';
 
@@ -24,11 +25,11 @@ export default function App() {
   }
 
   return (
-    <>
+    <WeatherProvider>
       <ThemeProvider theme={theme}>
         <Routes />
         <StatusBar style='light' />
       </ThemeProvider>
-    </>
+    </WeatherProvider>
   );
 }

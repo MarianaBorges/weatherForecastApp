@@ -63,8 +63,8 @@ export type CityProps = {
     estate: string;
     country: string;
     city: string;
-    latitude: number;
-    logitude: number;
+    latitude: string;
+    longitude: string;
     isFavorite: boolean;
 }
 
@@ -93,13 +93,12 @@ export function Seach(){
                         country: item.context[1].text,
                         city: item.text,
                         latitude: item.geometry.coordinates[1],
-                        logitude: item.geometry.coordinates[0],
+                        longitude: item.geometry.coordinates[0],
                         isFavorite: false,
                     }
                     return newItem;
                 })
 
-                //console.log(dataFormatted)
             setCities(dataFormatted);
 
         } catch (error) {
@@ -113,18 +112,18 @@ export function Seach(){
         const city = cities.find(city => city.id === id);
 
         if(city){
-            const response = await AsyncStorage.getItem('@RN_weatherForecastApp');
+            const response = await AsyncStorage.getItem('@RN_weatherForecastApp:cities');
             const data = response ? JSON.parse(response) : [];
 
             const verifyCity = data.find( (cityStorage: CityProps) => cityStorage.id === id )
-            console.log('verifyCity', !verifyCity);
+            
             if(verifyCity){
                 return Alert.alert('Oops!', 'Você já adicionou essa cidade!')
             }
 
             data.push(city);
 
-            await AsyncStorage.setItem('@RN_weatherForecastApp', JSON.stringify(data));
+            await AsyncStorage.setItem('@RN_weatherForecastApp:cities', JSON.stringify(data));
             Alert.alert('Legal!',"Cidade adicionada a sua lista!");
         }else{
             Alert.alert('Oops!',"Algo deu errado");
