@@ -59,7 +59,7 @@ export function WeatherCard({
     return(
 
         <GestureHandlerRootView>
-        <Container>
+        <Container isFavorite={isFavorite}>
             <Button {...rest}>
                 <ContentDetails>
                     <Title>{data.city}</Title>

@@ -2,7 +2,11 @@ import styled, { css } from "styled-components/native";
 import { AntDesign } from '@expo/vector-icons'; 
 import { BorderlessButton, RectButton } from "react-native-gesture-handler";
 
-export const Container = styled.View`
+type PropsContainer = {
+    isFavorite: boolean;
+}
+
+export const Container = styled.View<PropsContainer>`
     width: 100%;
     height: 130px;
     justify-content: space-between;
@@ -10,7 +14,7 @@ export const Container = styled.View`
     margin-bottom: 20px;
  
     border-radius: 10px;
-    background-color: ${({theme}) => theme.COLORS.WHITE};
+    background-color: ${({theme, isFavorite}) => isFavorite ? theme.COLORS.BLUE_LIGHT : theme.COLORS.WHITE};
 
     box-shadow: 10px 10px 5px;
     elevation: 5;

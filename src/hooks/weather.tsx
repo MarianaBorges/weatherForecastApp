@@ -70,8 +70,7 @@ function WeatherProvider({ children }: WeatherProviderProps){
     async function fetchWeekWeatherCity(lat: string, lon: string){
         try {
             const response = await apiOpenWeather.get(`forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&cnt=5&units=metric&lang=pt_br`)    
-            console.log('response', response.data.list);
-
+            
             const dataFormatted: WeatherProps[] = response.data.list.map((data: ResponseOpenWeather)=>{
                 return {
                     dt: data.dt,

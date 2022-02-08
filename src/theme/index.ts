@@ -1,5 +1,6 @@
 export default{
     COLORS:{
+        BLUE_LIGHT: '#DDF6F6',
         BLUE: '#228693',
         WHITE: '#FFFFFF',
         ORANGE: '#FE9B07',

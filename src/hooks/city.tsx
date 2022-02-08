@@ -64,7 +64,7 @@ function CityProvider({ children }: CityProviderProps){
         try {
             const response = await AsyncStorage.getItem(CITY_COLLECTION);
             const storageCities = response ? JSON.parse(response): [];
-
+            //console.log('storageCities', storageCities )
             setCities(storageCities);
         } catch (error) {
             Alert.alert('Oops ocorreu um problema ao buscar as cidades.');
@@ -78,19 +78,23 @@ function CityProvider({ children }: CityProviderProps){
             const response = await AsyncStorage.getItem(CITY_COLLECTION);
             const storageCities = response ? JSON.parse(response): [];
             
-            const updateCities: CityProps = storageCities.map((storageCity: CityProps) =>
-                storageCity.id === id
-                ? {
-                    id: storageCity.id,
-                    estate: storageCity.estate,
-                    country: storageCity.country,
-                    city: storageCity.city,
-                    latitude: storageCity.latitude,
-                    longitude: storageCity.latitude,
-                    isFavorite: storageCity.isFavorite 
+            const updateCities: CityProps[] = storageCities.map((storageCity: CityProps) => {
+                if(storageCity.id === id){
+                    return {
+                        id: storageCity.id,
+                        estate: storageCity.estate,
+                        country: storageCity.country,
+                        city: storageCity.city,
+                        latitude: storageCity.latitude,
+                        longitude: storageCity.latitude,
+                        isFavorite: !storageCity.isFavorite 
+                    }
+                }else{
+                    return storageCity;
                 }
-                : storageCity
-            );
+            });
+
+            console.log('updateCities', updateCities );
 
             await AsyncStorage.setItem(CITY_COLLECTION, JSON.stringify(updateCities));
             
