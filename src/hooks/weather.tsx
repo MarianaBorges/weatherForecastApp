@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import React,{
     createContext, 
     useContext, 
@@ -37,7 +36,6 @@ type WeatherProviderProps = {
     children: ReactNode;
 }
 
-const CITY_COLLECTION = '@RN_weatherForecastApp:cities';
 const API_KEY = '1e860dca884ec42ba7e223f05b36ab39';
 
 export const WeatherContext = createContext({} as WeatherContextData);

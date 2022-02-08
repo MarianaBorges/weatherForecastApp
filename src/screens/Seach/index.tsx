@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { useTheme } from "styled-components/native";
 import { useNavigation } from "@react-navigation/native";
+import { useCity, CityProps } from "../../hooks/city";
 
 import { 
     Container, 
@@ -19,25 +19,14 @@ import { CityCard } from "../../components/CityCard";
 import { Load } from "../../components/Load";
 
 import apiMapBox from "../../services/apiMapBox";
-import { Alert } from "react-native";
-
-const TOKEN = 'access_token=pk.eyJ1IjoibWFyaWFuYW1ib3JnZXMiLCJhIjoiY2t6Y3R4MXh0Mm9lNjJ2cDRvcGo0ODJsaiJ9.hCa1jQvoYhIIHhyY9JmW6Q'
 
 type ResponseMapBoxProps = {
-    bbox:  [number];
-    center: [number];
     context: [
       {
-        id: string;
-        short_code: string;
         text: string;
-        wikidata: string;
       },
       {
-        id: string;
-        short_code: string;
         text: string;
-        wikidata: string;
       }
     ];
     geometry:{
@@ -48,39 +37,24 @@ type ResponseMapBoxProps = {
       type: string;
     };
     id: string;
-    place_name: string;
-    place_type: [string];
-    properties:{
-      wikidata: string;
-    };
-    relevance: number;
     text: string;
-    type: string;
 }
 
-export type CityProps = {
-    id: string;
-    estate: string;
-    country: string;
-    city: string;
-    latitude: string;
-    longitude: string;
-    isFavorite: boolean;
-}
+const TOKEN = 'access_token=pk.eyJ1IjoibWFyaWFuYW1ib3JnZXMiLCJhIjoiY2t6Y3R4MXh0Mm9lNjJ2cDRvcGo0ODJsaiJ9.hCa1jQvoYhIIHhyY9JmW6Q'
 
 export function Seach(){
     const [cities, setCities] = useState<CityProps[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
+    const {handleNewCity} = useCity();
     const navigation = useNavigation();
     const {COLORS} = useTheme();
 
     function handleGoBack(){
-        navigation.goBack()
+        navigation.goBack();
     }
 
     async function fetchLocalMapBox(city: string){
-
         try {
             setIsLoading(true);
             const response = await apiMapBox.get(`${city}.json?types=place&${TOKEN}`);
@@ -102,31 +76,9 @@ export function Seach(){
             setCities(dataFormatted);
 
         } catch (error) {
-            console.log(error);
+            
         } finally{
             setIsLoading(false);
-        }
-    }
-
-    async function handleNewCity(id: string){
-        const city = cities.find(city => city.id === id);
-
-        if(city){
-            const response = await AsyncStorage.getItem('@RN_weatherForecastApp:cities');
-            const data = response ? JSON.parse(response) : [];
-
-            const verifyCity = data.find( (cityStorage: CityProps) => cityStorage.id === id )
-            
-            if(verifyCity){
-                return Alert.alert('Oops!', 'Você já adicionou essa cidade!')
-            }
-
-            data.push(city);
-
-            await AsyncStorage.setItem('@RN_weatherForecastApp:cities', JSON.stringify(data));
-            Alert.alert('Legal!',"Cidade adicionada a sua lista!");
-        }else{
-            Alert.alert('Oops!',"Algo deu errado");
         }
     }
 

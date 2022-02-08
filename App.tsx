@@ -9,6 +9,7 @@ import {
 import AppLoading from 'expo-app-loading';
 import { ThemeProvider } from 'styled-components/native';
 import { WeatherProvider } from './src/hooks/weather';
+import { CityProvider } from './src/hooks/city';
 
 import { Routes } from './src/routes';
 
@@ -25,11 +26,13 @@ export default function App() {
   }
 
   return (
-    <WeatherProvider>
-      <ThemeProvider theme={theme}>
-        <Routes />
-        <StatusBar style='light' />
-      </ThemeProvider>
-    </WeatherProvider>
+    <CityProvider>
+      <WeatherProvider>
+        <ThemeProvider theme={theme}>
+          <Routes />
+          <StatusBar style='light' />
+        </ThemeProvider>
+      </WeatherProvider>
+    </CityProvider>
   );
 }

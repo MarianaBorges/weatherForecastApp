@@ -2,7 +2,7 @@ import styled, { css } from "styled-components/native";
 import { Ionicons } from '@expo/vector-icons';
 import { FlatList } from "react-native";
 
-import { CityProps } from ".";
+import { CityProps } from "../../hooks/city";
 
 export const Container = styled.View`
     flex: 1;

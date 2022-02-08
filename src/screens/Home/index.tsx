@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { useEffect } from "react";
 
 import { useTheme } from "styled-components/native";
 import { useNavigation } from "@react-navigation/native";
+import { useCity } from "../../hooks/city";
 
 import { 
     Container, 
@@ -16,16 +16,11 @@ import {
 } from "./styles";
 
 import { WeatherCard } from "../../components/WeatherCard";
-
-import { CityProps } from "../Seach";
 import { Load } from "../../components/Load";
-import { Alert } from "react-native";
 
 export function Home(){
-    const [cities, setCities] = useState<CityProps[]>([] as CityProps[]);
-    const [isLoading, setIsLoading] = useState(true);
-    
     const navigation = useNavigation();
+    const {cities, isLoading, fechMyCities, updatedFavoriteCity} = useCity();
     const {COLORS} = useTheme();
 
     function handleNavigationSearchScreen(){
@@ -36,18 +31,10 @@ export function Home(){
         navigation.navigate('Details', {id: id});
     }
  
-    async function fechMyCities(){
-        try {
-            const response = await AsyncStorage.getItem('@RN_weatherForecastApp:cities');
-            const storageCities = response ? JSON.parse(response): [];
-
-            setCities(storageCities);
-        } catch (error) {
-            Alert.alert('Oops ocorreu um problema ao buscar as cidades.');
-        }finally{
-            setIsLoading(false);
-        }
+    async function handleFavoriteToggle(id: string){
+        await updatedFavoriteCity(id);
     }
+   
 
     useEffect(()=>{
         fechMyCities();
@@ -77,6 +64,7 @@ export function Home(){
                         renderItem={({item}) => 
                             <WeatherCard 
                                 data={item}
+                                changeFavorite={()=>handleFavoriteToggle(item.id)}
                                 onPress={() => handleNavigationDetailsScreen(String(item))} 
                                 favorite={true}
                             />}

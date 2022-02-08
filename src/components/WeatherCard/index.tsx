@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { GestureHandlerRootView, RectButtonProps } from "react-native-gesture-handler";
+
 import { useTheme } from "styled-components/native";
 import { useWeather, WeatherProps } from "../../hooks/weather";
-import { CityProps } from "../../screens/Seach";
+
+import { CityProps } from "../../hooks/city";
 
 import { 
     Container, 
@@ -21,7 +23,7 @@ import {
 type Props = RectButtonProps & {
     data: CityProps;
     favorite?: boolean; 
-    changeFavorite?:() => Promise<void>;
+    changeFavorite: (id: string) => Promise<void>;
 }
 
 export function WeatherCard({
@@ -31,7 +33,7 @@ export function WeatherCard({
     ...rest}
 : Props){
 
-    const [isFavorite, setIsFavorite] = useState(false);
+    const [isFavorite, setIsFavorite] = useState(data.isFavorite);
     const [weatherForecast, setWeatherForecast] = useState<WeatherProps>();
 
     const {COLORS} = useTheme();
@@ -39,6 +41,7 @@ export function WeatherCard({
 
     function handleFavorite(){
         setIsFavorite(prevState => !prevState);
+        changeFavorite(data.id);
     }
 
     async function handleWeatherForecast(){
