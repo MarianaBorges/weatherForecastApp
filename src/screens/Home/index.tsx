@@ -10,13 +10,13 @@ import {
     Details, 
     Header, 
     HeaderText, 
-    SeachIcon,
     Title,
     CitiesList
 } from "./styles";
 
 import { WeatherCard } from "../../components/WeatherCard";
 import { Load } from "../../components/Load";
+import { SeachButton } from "../../components/SeachButton";
 
 export function Home(){
     const navigation = useNavigation();
@@ -44,15 +44,8 @@ export function Home(){
         <Container>
             <Header>
                 <HeaderText>Cidades</HeaderText>
-                <SeachIcon onPress={handleNavigationSearchScreen}>
-                    <SeachIcon 
-                        name="md-search-sharp" 
-                        size={24} 
-                        color={COLORS.WHITE} 
-                    />
-                </SeachIcon>
             </Header> 
-
+            
             { 
                 isLoading ? <Load/> :
 
@@ -81,6 +74,7 @@ export function Home(){
                         </Details>
                     </Content>
             }
+            <SeachButton onPress={handleNavigationSearchScreen}/>
         </Container>
     )
 }

@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components/native";
 import { BorderlessButton } from "react-native-gesture-handler";
 import { Ionicons } from '@expo/vector-icons';
-import { FlatList } from "react-native";
+import { FlatList, TouchableOpacity } from "react-native";
 
 export const Container = styled.View`
     flex: 1;
@@ -25,10 +25,6 @@ export const HeaderText = styled.Text`
         color: ${theme.COLORS.WHITE};
     `}
 `;
-
-export const SeachButton = styled(BorderlessButton)``;
-
-export const SeachIcon = styled(Ionicons)``;
 
 export const Content = styled.View`
     flex:1;
