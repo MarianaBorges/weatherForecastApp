@@ -6,7 +6,7 @@ type PropsContainer = {
     isFavorite: boolean;
 }
 
-export const Container = styled.View<PropsContainer>`
+export const Container = styled(RectButton)<PropsContainer>`
     width: 100%;
     height: 130px;
     justify-content: space-between;
@@ -20,7 +20,7 @@ export const Container = styled.View<PropsContainer>`
     elevation: 5;
 `;
 
-export const Button = styled(RectButton)`
+export const Button = styled.View`
     width: 100%;
     flex-direction: row;
     justify-content: space-between;

@@ -57,10 +57,8 @@ export function WeatherCard({
         return <></>
 
     return(
-
-        <GestureHandlerRootView>
-        <Container isFavorite={isFavorite}>
-            <Button {...rest}>
+        <Container {...rest} isFavorite={isFavorite}>
+            <Button >
                 <ContentDetails>
                     <Title>{data.city}</Title>
                     <Text>{data.estate}, {data.country}</Text>
@@ -97,6 +95,5 @@ export function WeatherCard({
                 </LikeIconButton>
             </Content>
         </Container>
-        </GestureHandlerRootView>
     )
 }

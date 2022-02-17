@@ -14,6 +14,7 @@ import { CityProvider } from './src/hooks/city';
 import { Routes } from './src/routes';
 
 import theme from './src/theme';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function App() {
   const [fontsLoading] = useFonts({
@@ -26,13 +27,15 @@ export default function App() {
   }
 
   return (
-    <CityProvider>
-      <WeatherProvider>
-        <ThemeProvider theme={theme}>
-          <Routes />
-          <StatusBar style='light' />
-        </ThemeProvider>
-      </WeatherProvider>
-    </CityProvider>
+    <GestureHandlerRootView style={{flex: 1}}>
+      <CityProvider>
+        <WeatherProvider>
+          <ThemeProvider theme={theme}>
+            <Routes />
+            <StatusBar style='light' />
+          </ThemeProvider>
+        </WeatherProvider>
+      </CityProvider>
+    </GestureHandlerRootView>
   );
 }
