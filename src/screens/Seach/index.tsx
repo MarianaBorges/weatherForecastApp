@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -13,7 +13,8 @@ import {
     CloseIcon,
     InputContent,
     Content,
-    CitiesList
+    CitiesList,
+    Message
 } from "./styles";
 
 import { Input } from "../../components/Input";
@@ -48,6 +49,7 @@ const CITY_COLLECTION = '@RN_weatherForecastApp:cities';
 export function Seach(){
     const [cities, setCities] = useState<CityProps[]>([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [message, setMessage] = useState('');;
 
     const navigation = useNavigation();
     const {COLORS} = useTheme();
@@ -76,6 +78,7 @@ export function Seach(){
                 })
 
             setCities(dataFormatted);
+            setMessage(!!dataFormatted ? 'Ops! Não encontramos essa cidade' : '');
 
         } catch (error) {
             
@@ -128,15 +131,18 @@ export function Seach(){
                 {
                     isLoading 
                     ? <Load/>
-                    : <CitiesList
-                        data={cities}
-                        keyExtractor={(item) => item.id}
-                        renderItem={({item})=> 
-                            <CityCard 
-                                data={item}
-                                onPress={() => handleNewCity(item.id)}
-                            />}
-                        />
+                    : cities.length != 0 ?
+                        <CitiesList
+                            data={cities}
+                            keyExtractor={(item) => item.id}
+                            renderItem={({item})=> 
+                                <CityCard 
+                                    data={item}
+                                    onPress={() => handleNewCity(item.id)}
+                                />}
+                            />
+                        :
+                        <Message>{message}</Message>
                 }
             </Content>
         </Container>

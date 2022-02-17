@@ -2,8 +2,6 @@ import styled, { css } from "styled-components/native";
 import { Ionicons } from '@expo/vector-icons';
 import { FlatList } from "react-native";
 
-import { CityProps } from "../../hooks/city";
-
 export const Container = styled.View`
     flex: 1;
     background-color: ${({ theme }) => theme.COLORS.WHITE};
@@ -36,3 +34,14 @@ export const CitiesList = styled(FlatList).attrs({
     },
     showsVerticalScrollIndicator: false
 })`` as React.ComponentType as new <CityProps>() => FlatList<CityProps>;
+
+
+export const Message = styled.Text`
+    font-size: 20px;
+    text-align: center;
+
+    ${({ theme }) => css`
+        font-family: ${theme.FONTS.MEDIUM};
+        color: ${theme.COLORS.TITLE};
+    `}
+`;
