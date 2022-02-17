@@ -41,7 +41,7 @@ type WeatherProviderProps = {
     children: ReactNode;
 }
 
-const API_KEY = '1e860dca884ec42ba7e223f05b36ab39';
+const API_KEY = process.env.API_KEY_OPEN_WEATHER;
 
 export const WeatherContext = createContext({} as WeatherContextData);
 

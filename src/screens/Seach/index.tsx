@@ -42,7 +42,7 @@ type ResponseMapBoxProps = {
     text: string;
 }
 
-const TOKEN = 'access_token=pk.eyJ1IjoibWFyaWFuYW1ib3JnZXMiLCJhIjoiY2t6Y3R4MXh0Mm9lNjJ2cDRvcGo0ODJsaiJ9.hCa1jQvoYhIIHhyY9JmW6Q'
+const TOKEN = `access_token=${process.env.TOKEN_MAP_BOX}`
 const CITY_COLLECTION = '@RN_weatherForecastApp:cities';
 
 export function Seach(){
