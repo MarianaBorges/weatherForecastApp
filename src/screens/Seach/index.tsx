@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { debounce } from 'lodash';
 
 import { useTheme } from "styled-components/native";
 import { useNavigation } from "@react-navigation/native";
-import { useCity, CityProps } from "../../hooks/city";
+import { CityProps } from "../../hooks/city";
 
 import { 
     Container, 
@@ -47,6 +48,7 @@ const TOKEN = `access_token=${process.env.TOKEN_MAP_BOX}`
 const CITY_COLLECTION = '@RN_weatherForecastApp:cities';
 
 export function Seach(){
+    const [city, setCity] = useState('');
     const [cities, setCities] = useState<CityProps[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [message, setMessage] = useState('');;
@@ -58,7 +60,9 @@ export function Seach(){
         navigation.goBack();
     }
 
-    async function fetchLocalMapBox(city: string){
+    const updateQuery = debounce(query => setCity(query), 500);
+
+    async function fetchLocalMapBox(){
         try {
             setIsLoading(true);
             const response = await apiMapBox.get(`${city}.json?types=place&${TOKEN}`);
@@ -76,7 +80,7 @@ export function Seach(){
                     }
                     return newItem;
                 })
-
+            
             setCities(dataFormatted);
             setMessage(!!dataFormatted ? 'Ops! Não encontramos essa cidade' : '');
 
@@ -109,6 +113,10 @@ export function Seach(){
         }
     }
 
+    useEffect(()=>{
+        fetchLocalMapBox();
+    },[city])
+
     return(
         <Container>
             <Header>
@@ -121,7 +129,7 @@ export function Seach(){
                 </CloseButton>
                 <InputContent>
                     <Input 
-                        onChangeText={text => fetchLocalMapBox(text)}
+                        onChangeText={text => updateQuery(text)}
                         placeholder="Informe a cidade buscada..."
                         placeholderTextColor={COLORS.WHITE}
                     />
