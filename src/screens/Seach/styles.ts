@@ -26,6 +26,7 @@ export const CloseIcon = styled(Ionicons)``;
 
 export const Content = styled.View`
     flex: 1;
+    justify-content: center;
 `;
 
 export const CitiesList = styled(FlatList).attrs({
