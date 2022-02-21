@@ -41,8 +41,6 @@ type WeatherProviderProps = {
     children: ReactNode;
 }
 
-const API_KEY = process.env.API_KEY_OPEN_WEATHER;
-
 export const WeatherContext = createContext({} as WeatherContextData);
 
 function WeatherProvider({ children }: WeatherProviderProps){
@@ -51,7 +49,7 @@ function WeatherProvider({ children }: WeatherProviderProps){
 
     async function fetchCurrentWeatherCity(lat: string, lon: string){
         try {
-            const response = await apiOpenWeather.get<ResponseOpenWeather>(`weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric&lang=pt_br`);
+            const response = await apiOpenWeather.get<ResponseOpenWeather>(`weather?lat=${lat}&lon=${lon}`);
                 
             return {
                 temperature: response.data.main.temp,
@@ -61,6 +59,7 @@ function WeatherProvider({ children }: WeatherProviderProps){
             }
             
         } catch (error) {
+            console.error('Error', error);
             throw new Error("Não foi possivel buscar os dados solicitados");
         }finally{
             setIsLoading(false);
@@ -70,7 +69,7 @@ function WeatherProvider({ children }: WeatherProviderProps){
     async function fetchWeekWeatherCity(lat: string, lon: string){
         try {
             setIsLoading(true);
-            const response = await apiOpenWeather.get(`forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&cnt=5&units=metric&lang=pt_br`)    
+            const response = await apiOpenWeather.get(`forecast?lat=${lat}&lon=${lon}`)    
             
             const dataFormatted: WeatherProps[] = response.data.list.map((data: ResponseOpenWeather)=>{
                 return {

@@ -43,8 +43,6 @@ type ResponseMapBoxProps = {
     id: string;
     text: string;
 }
-
-const TOKEN = `access_token=${process.env.TOKEN_MAP_BOX}`
 const CITY_COLLECTION = '@RN_weatherForecastApp:cities';
 
 export function Seach(){
@@ -65,7 +63,7 @@ export function Seach(){
     async function fetchLocalMapBox(){
         try {
             setIsLoading(true);
-            const response = await apiMapBox.get(`${city}.json?types=place&${TOKEN}`);
+            const response = await apiMapBox.get(`${city}.json?types=place`);
             const data = response.data.features;
             const dataFormatted: CityProps[] = data
                 .map((item:ResponseMapBoxProps)=>{
@@ -85,7 +83,7 @@ export function Seach(){
             setMessage(!!dataFormatted ? 'Ops! Não encontramos essa cidade' : '');
 
         } catch (error) {
-            
+            console.error('Error', error);
         } finally{
             setIsLoading(false);
         }
