@@ -112,7 +112,7 @@ export function Seach(){
     }
 
     useEffect(()=>{
-        fetchLocalMapBox();
+        if (city) fetchLocalMapBox();
     },[city])
 
     return(
