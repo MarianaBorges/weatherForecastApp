@@ -3,7 +3,6 @@ import React,{
     useContext, 
     useState, 
     ReactNode,
-    useEffect
 } from "react";
 
 import apiOpenWeather from "../services/apiOpenWeather";
@@ -59,7 +58,6 @@ function WeatherProvider({ children }: WeatherProviderProps){
             }
             
         } catch (error) {
-            console.error('Error', error);
             throw new Error("Não foi possivel buscar os dados solicitados");
         }finally{
             setIsLoading(false);

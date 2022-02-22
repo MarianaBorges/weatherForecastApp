@@ -40,9 +40,10 @@ function CityProvider({ children }: CityProviderProps){
         try {
             const response = await AsyncStorage.getItem(CITY_COLLECTION);
             const storageCities = response ? JSON.parse(response): [];
-         
+
             setCities(storageCities);
         } catch (error) {
+            console.error('Error', error);
             Alert.alert('Oops ocorreu um problema ao buscar as cidades.');
         }
     }

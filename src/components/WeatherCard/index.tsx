@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { GestureHandlerRootView, RectButtonProps } from "react-native-gesture-handler";
+import { ActivityIndicator, View } from 'react-native';
+import { RectButtonProps } from "react-native-gesture-handler";
 
 import { useTheme } from "styled-components/native";
 import { useWeather, WeatherProps } from "../../hooks/weather";
@@ -53,9 +54,6 @@ export function WeatherCard({
         handleWeatherForecast();
     },[])
 
-    if(!weatherForecast)
-        return <></>
-
     return(
         <Container {...rest} isFavorite={isFavorite}>
             <Button >
@@ -63,16 +61,27 @@ export function WeatherCard({
                     <Title>{data.city}</Title>
                     <Text>{data.estate}, {data.country}</Text>
                 </ContentDetails>
-                <Temperature>
-                    {weatherForecast!.temperature}º
-                </Temperature>
+               { 
+                    weatherForecast 
+                    ?
+                    <Temperature>
+                        {weatherForecast!.temperature}º
+                    </Temperature>
+                    :
+                    <ActivityIndicator size="small" color={COLORS.ORANGE}/>
+                }
             </Button>
             
             <Content>
-                <ContentDetails>
-                    <AtmosphericConditions>{weatherForecast.weather}</AtmosphericConditions>
-                    <TemperatureVariation>{weatherForecast.minimum}º - {weatherForecast.maximum}º</TemperatureVariation>
-                </ContentDetails>
+                {  
+                    weatherForecast 
+                    ?
+                    <ContentDetails>
+                        <AtmosphericConditions>{weatherForecast.weather}</AtmosphericConditions>
+                        <TemperatureVariation>{weatherForecast.minimum}º - {weatherForecast.maximum}º</TemperatureVariation>
+                    </ContentDetails>
+                    : <View/>
+                }
                 <LikeIconButton 
                     activeOpacity={0.9} 
                     onPress={handleFavorite}
